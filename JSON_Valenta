@@ -1,0 +1,64 @@
+// HTML
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>API Data Fetch</title>
+    </head>
+    <body>
+        <button id="categoriesBtn">Show Categories</button>
+        <button id="productsBtn">Show Products</button>
+        
+        <div id="content"></div>
+        
+        <script src="script.js"></script>
+    </body>
+</html>
+
+
+// JavaScript
+
+document.getElementById('categoriesBtn').addEventListener('click', function() {
+    fetchCategories();
+});
+
+document.getElementById('productsBtn').addEventListener('click', function() {
+    fetchProducts();
+});
+
+function fetchCategories() {
+    fetch('https://dummyjson.com/auth/Categories')
+        .then(response => response.json())
+        .then(data => {
+            let output = '<h2>Categories</h2>';
+            data.forEach(function(category) {
+                output += `
+                    <div>
+                        <h3>${category.name}</h3>
+                        <p>${category.description}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('content').innerHTML = output;
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+function fetchProducts() {
+    fetch('https://dummyjson.com/auth/Products')
+        .then(response => response.json())
+        .then(data => {
+            let output = '<h2>Products</h2>';
+            data.forEach(function(product) {
+                output += `
+                    <div>
+                        <h3>${product.name}</h3>
+                        <p>${product.description}</p>
+                        <p>Price: ${product.price}</p>
+                    </div>
+                `;
+            });
+            document.getElementById('content').innerHTML = output;
+        })
+        .catch(error => console.error('Error:', error));
+}
